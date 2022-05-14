@@ -2,12 +2,6 @@
 
 const nextConfig = {
   reactStrictMode: true,
-  env:{
-    //Curlent Bridge Admin Info
-    curlentAdminInfo:{
-      privateKey:"01290c7d6abff326948e1514d5a20eeede5b433d36d176e66b2a8d852d83a9cb",
-    }
-  },
   // Info about smart contract that deployed on testnet and configuration
   ethereumKovan:{
     token:{
@@ -27,7 +21,6 @@ const nextConfig = {
       contractAddress:"0x12489b123f782031D2f136daa32Fc274e8C06eE7"
     },
     bridge:{
-      // contractAddress:"0xaFB2c13D15604486D1852d4E1d14565D037a587c"
       contractAddress:"0x9FBe41FEB04c315D7123403aCDd08CECf5327046"
     },
     config:{
