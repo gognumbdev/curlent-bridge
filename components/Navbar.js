@@ -10,7 +10,6 @@ import { disconnectUserFromDapp } from '../redux/actions/userAction'
 {/* <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfwolAaPkgpsAyeI8AOPK2-8fndpzEqw5JoD2S28PihkM2zCQ/viewform?embedded=true" width="640" height="1083" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe> */}
 const navigation = [
   { name: 'Token info', href: 'Products', current: false,},
-  { name: 'Bridge info', href: 'Developers', current: false,},
 ]
 
 function classNames(...classes) {
@@ -29,9 +28,6 @@ export default function Navbar() {
     switch(pageName){
       case "Token info":
         router.push("/token-info")
-        break;
-      case "Bridge info":
-        router.push("/bridge-info")
         break;
       default:
         router.push("/")
