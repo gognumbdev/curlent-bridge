@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import TokenMonitor from '../components/token/TokenMonitor'
 import { getTokenInfo } from '../controllers/token/getInfo'
 
-const tokenInfoPage = () => {
+const TokenInfoPage = () => {
     
     const [tokenInfo, setTokenInfo] = useState({});
 
@@ -44,7 +44,7 @@ const tokenInfoPage = () => {
     )
 }
 
-export default tokenInfoPage
+export default TokenInfoPage
 
 let chainsInfo = [
     {
