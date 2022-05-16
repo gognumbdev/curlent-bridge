@@ -12,6 +12,7 @@ import { mintToken } from '../../controllers/token/mintToken'
 import { getTokenBalance} from '../../controllers/token/getInfo'
 import { ethers } from 'ethers'
 import { bridgeBurnToken,bridgeMintToken } from '../../controllers/bridge/bridgeToken'
+import { RefreshIcon } from '@heroicons/react/solid'
 
 const BridgePanel = () => {
   const [sourceBlockchain, setSourceBlockchain] = useState("Ethereum Kovan Network")
@@ -23,6 +24,8 @@ const BridgePanel = () => {
   const [userTokenBalance, setUserTokenBalance] = useState("0");
   const [latestSelect, setLatestSelect] = useState("From");
   const [showBalance, setShowBalance] = useState(false)
+  const [onBridgeProcessing, setOnBridgeProcessing] = useState(false);
+  const [onReceiveTokenProcessing, setOnReceiveTokenProcessing] = useState(false);
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -48,10 +51,12 @@ const BridgePanel = () => {
   }
 
   const handleMintToken = async (tokenCode) => {
+    setOnReceiveTokenProcessing(true);
     console.log(`Process Minting ${tokenCode} `)
     let mintingInfo =  await mintToken(tokenToChainName[tokenCode],tokenCode)
     console.log(mintingInfo);
     alert(`${tokenCode} minting success , Check balance on your crypto wallet !`);
+    setOnReceiveTokenProcessing(false);
   }
 
   const handleShowBalance = async (tokenCode) => {
@@ -64,6 +69,9 @@ const BridgePanel = () => {
   }
 
   const handleConfirmBridge = async () => {
+
+    setOnBridgeProcessing(true);
+
     let userTokenBalanceInEther = ethers.utils.formatEther(userTokenBalance,"ether");
     
     console.log(userTokenBalanceInEther,tokenAmount)
@@ -84,8 +92,9 @@ const BridgePanel = () => {
       }else{
         alert(`Sorry womething went worng, your bridge transaction fail.`);
       }
-      
     }
+
+    setOnBridgeProcessing(false);
 
   }
 
@@ -117,15 +126,22 @@ const BridgePanel = () => {
             
             <button 
               onClick={() => handleAddToken(curlentTokenInfo[sourceChain]?.symbol)}
-              className='bg-blue-600 px-4 py-2 rounded'>
+              className='bg-blue-600 px-4 py-2 rounded transition transform duration-300 ease-out active:scale-90'>
                 Add {curlentTokenInfo[sourceChain]?.name} ( {curlentTokenInfo[sourceChain]?.symbol} ) to your wallet
             </button>
 
-            <button 
-              onClick={() => handleMintToken(curlentTokenInfo[sourceChain]?.symbol)}
-              className='bg-blue-600 px-4 py-2 rounded'>
-              Receive {curlentTokenInfo[sourceChain]?.name} ( {curlentTokenInfo[sourceChain]?.symbol} )
-            </button>
+                {onReceiveTokenProcessing ? (
+                  <button type="button" class="bg-blue-500 flex items-center justify-center space-x-4 rounded p-4" disabled>
+                    <RefreshIcon className='h-10 w-10 animate-spin' />
+                    Processing...
+                  </button>
+                ) : (
+                  <button 
+                  onClick={() => handleMintToken(curlentTokenInfo[sourceChain]?.symbol)}
+                  className='bg-blue-600 px-4 py-2 rounded transition transform duration-300 ease-out active:scale-90'>
+                        Receive {curlentTokenInfo[sourceChain]?.name} ( {curlentTokenInfo[sourceChain]?.symbol} )
+                  </button>
+                )}
 
           </div>
         </div>
@@ -147,7 +163,7 @@ const BridgePanel = () => {
                 <p className=''>{curlentTokenInfo[sourceChain]?.symbol}</p>  
                 <button 
                     onClick={() => handleShowBalance(curlentTokenInfo[sourceChain]?.symbol)}
-                    className='border-2 px-4 py-2 rounded w-fit transition transform duration-300 hover:bg-white hover:text-blue-500'>
+                    className='border-2 px-4 py-2 rounded w-fit transition transform duration-300 hover:bg-white hover:text-blue-500 ease-out active:scale-90'>
                     {showBalance ? "hide" : "show"} balance
                 </button>
               </div>
@@ -171,7 +187,8 @@ const BridgePanel = () => {
                 />
                 <button 
                   onClick={ () => setDestinationAddress(userAddress)}
-                  className='border-2 px-4 py-2 rounded w-fit transition transform duration-300 hover:bg-white hover:text-blue-500'>
+                  className='border-2 px-4 py-2 rounded w-fit transition transform duration-300 ease-out hover:bg-white hover:text-blue-500
+                  active:scale-90 '>
                   Your address 
                 </button>
               </div>
@@ -180,11 +197,21 @@ const BridgePanel = () => {
           </div>
 
           {/* Bridge */}
-          <button 
-            onClick={handleConfirmBridge}
-            className='bg-blue-500 text-white font-medium w-fit p-4 place-self-center rounded text-xl '>
-            Confirm Bridge 
-          </button>
+  
+            {onBridgeProcessing ? (
+              <button type="button" class="bg-blue-500 flex items-center justify-center space-x-4 rounded p-4" disabled>
+                <RefreshIcon className='h-10 w-10 animate-spin' />
+                Processing...
+              </button>
+            ): (
+              <button 
+                onClick={handleConfirmBridge}
+                className='bg-blue-500 text-white font-medium w-fit p-4 place-self-center rounded text-xl 
+                transition transform duration-300 ease-out active:scale-90'>
+                      Confirm Bridge 
+              </button>
+            )}
+            
 
         </div>
 
