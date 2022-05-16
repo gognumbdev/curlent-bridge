@@ -131,7 +131,7 @@ const BridgePanel = () => {
             </button>
 
                 {onReceiveTokenProcessing ? (
-                  <button type="button" class="bg-blue-500 flex items-center justify-center space-x-4 rounded p-4" disabled>
+                  <button type="button" className="bg-blue-500 flex items-center justify-center space-x-4 rounded p-4" disabled>
                     <RefreshIcon className='h-10 w-10 animate-spin' />
                     Processing...
                   </button>
@@ -199,7 +199,7 @@ const BridgePanel = () => {
           {/* Bridge */}
   
             {onBridgeProcessing ? (
-              <button type="button" class="bg-blue-500 flex items-center justify-center space-x-4 rounded p-4" disabled>
+              <button type="button" className="bg-blue-500 flex items-center justify-center space-x-4 rounded p-4" disabled>
                 <RefreshIcon className='h-10 w-10 animate-spin' />
                 Processing...
               </button>
